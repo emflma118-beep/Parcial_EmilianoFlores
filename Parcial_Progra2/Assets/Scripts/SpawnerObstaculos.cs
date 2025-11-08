@@ -4,9 +4,9 @@ using System.Collections;
 public class SpawnerObstaculos : MonoBehaviour
 {
     [Header("Configuración de Spawn")]
-    public GameObject[] obstaclePrefabs; // 0:Top, 1:Mid, 2:Down
-    public float spawnInterval = 2f;
-    public float obstacleSpeed = 5f;
+    public GameObject[] obstaculosPrefabs;
+    public float intervaloSpawner = 2f;
+    public float veloObstaculos = 5f;
 
     [Header("Posiciones de Spawn")]
     public Vector3 topPosition = new Vector3(15, 2, 0);
@@ -18,24 +18,22 @@ public class SpawnerObstaculos : MonoBehaviour
     void Start()
     {
         mainCamera = Camera.main;
-        StartCoroutine(SpawnObstacles());
+        StartCoroutine(obstaculosSpawners());
     }
 
-    IEnumerator SpawnObstacles()
+    IEnumerator obstaculosSpawners()
     {
         while (true)
         {
-            yield return new WaitForSeconds(spawnInterval);
+            yield return new WaitForSeconds(intervaloSpawner);
 
-            // Elegir tipo aleatorio (0:Top, 1:Mid, 2:Down)
+            // Elegir tipo de obstaculo aleatorio (0:Top, 1:Mid, 2:Down)
             int obstacleType = Random.Range(0, 3);
             Vector3 spawnPosition = GetSpawnPosition(obstacleType);
 
-            // Instanciar obstáculo
-            GameObject obstacle = Instantiate(obstaclePrefabs[obstacleType], spawnPosition, Quaternion.identity);
+            GameObject obstacle = Instantiate(obstaculosPrefabs[obstacleType], spawnPosition, Quaternion.identity);
 
-            // Mover obstáculo
-            StartCoroutine(MoveObstacle(obstacle));
+            StartCoroutine(moverObstaculos(obstacle));
         }
     }
 
@@ -50,11 +48,11 @@ public class SpawnerObstaculos : MonoBehaviour
         }
     }
 
-    IEnumerator MoveObstacle(GameObject obstacle)
+    IEnumerator moverObstaculos(GameObject obstacle)
     {
         while (obstacle != null && IsObstacleVisible(obstacle))
         {
-            obstacle.transform.Translate(Vector3.left * obstacleSpeed * Time.deltaTime);
+            obstacle.transform.Translate(Vector3.left * veloObstaculos * Time.deltaTime);
             yield return null;
         }
 
@@ -62,7 +60,6 @@ public class SpawnerObstaculos : MonoBehaviour
         if (obstacle != null)
         {
             Destroy(obstacle);
-            // Añadir punto al pasar obstáculo
             GameManager.instance.AddScore(1);
         }
     }
