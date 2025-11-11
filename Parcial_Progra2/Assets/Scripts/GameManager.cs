@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -6,8 +7,8 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
 
     [Header("UI")]
-    public Text scoreText;
-    public AudioClip pointSound;
+    public TextMeshProUGUI texto;
+    public AudioClip sonido;
 
     private int score = 0;
     private AudioSource audioSource;
@@ -35,14 +36,14 @@ public class GameManager : MonoBehaviour
     {
         score += points;
         UpdateScoreUI();
-        audioSource.PlayOneShot(pointSound);
+        audioSource.PlayOneShot(sonido);
     }
 
     void UpdateScoreUI()
     {
-        if (scoreText != null)
+        if (texto != null)
         {
-            scoreText.text = "Puntos: " + score;
+            texto.text = "Puntos: " + score;
         }
     }
 }
