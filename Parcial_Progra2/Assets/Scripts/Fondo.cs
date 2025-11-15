@@ -2,12 +2,12 @@ using UnityEngine;
 
 public class Fondo : MonoBehaviour
 {
-    public float scrollSpeed = 2f;
-    public Renderer backgroundRenderer;
+    public float velocidad = 2f;
+    public Renderer imagenFondo;
 
     void Update()
     {
-        float offset = Time.time * scrollSpeed;
-        backgroundRenderer.material.mainTextureOffset = new Vector2(offset, 0);
+        float offset = Time.time * velocidad;
+        imagenFondo.material.mainTextureOffset = new Vector2(offset, 0);
     }
 }
